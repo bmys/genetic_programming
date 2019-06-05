@@ -1,3 +1,4 @@
+import random
 import string
 
 from functools import reduce
@@ -62,6 +63,18 @@ def arithmetic(op, vm, args):
     result: float = reduce(op, [operand1, operand2])
 
     vm.variables[destination] = result
+
+
+def random_program(opp: dict, program_len: int, size: int,varc: list):
+
+    while program_len != 0:
+        program_len -= 1
+        operation = random.choice(list(opp.keys()))
+        operands = random.choices(varc, k=size)
+        yield (operation, *operands)
+
+
+
 
 operations = {
     'ADD': add,
