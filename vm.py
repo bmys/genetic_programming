@@ -106,6 +106,12 @@ def mutation(program: tuple, instructions: dict, varc):
             return program
 
 
+def crossing_over(program1, program2):
+    split_point = 1 + randrange(len(program1)-1)
+    program1 = list(program1)[:split_point]
+    k = list(program2)[split_point:]
+    program1.extend(k)
+    return program1
 
 operations = {
     'ADD': add,
