@@ -3,6 +3,7 @@ import string
 
 from functools import reduce
 import operator
+from random import randrange
 
 
 class Vm:
@@ -28,6 +29,9 @@ def mov(vm: Vm, *args):
     source = vm.variables[args[0]]
     destination = args[1]
     vm.variables[destination] = source
+
+def skip(vm: Vm, *args):
+    pass
 
 # arithmetic
 
@@ -74,6 +78,33 @@ def random_program(opp: dict, program_len: int, size: int,varc: list):
         yield (operation, *operands)
 
 
+def mutation(program: tuple, instructions: dict, varc):
+    program = list(program)
+    choices = ('swap', 'change')
+    choice = random.choice(choices)
+
+    if choice == 'swap':
+        r1 = randrange(len(program))
+        r2 = randrange(len(program))
+        program[r1], program[r2] = program[r2], program[r1]
+        return tuple(program)
+    else:
+        instruction = randrange(len(program))
+        choices = ('operation', 'operand')
+        choice = random.choice(choices)
+
+        if choice == 'operation':
+            new = list(program[instruction])
+            new[0] = random.choice(list(instructions.keys()))
+            program[instruction] = tuple(new)
+            return program
+        else:
+            new = list(program[instruction])
+            operand = 1 + randrange(len(new) - 1)
+            new[operand] = random.choice(varc)
+            program[instruction] = tuple(new)
+            return program
+
 
 
 operations = {
@@ -81,7 +112,8 @@ operations = {
     'SUB': sub,
     'MUL': mul,
     'DIV': div,
-    'MOV': mov
+    'MOV': mov,
+    'SKP': skip
 }
 
 v = Vm(3, operations)
