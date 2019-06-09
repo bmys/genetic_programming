@@ -69,7 +69,7 @@ def arithmetic(op, vm, args):
     vm.variables[destination] = result
 
 
-def random_program(opp: dict, program_len: int, size: int,varc: list):
+def random_program(opp: dict, program_len: int, size: int, varc: list):
 
     while program_len != 0:
         program_len -= 1
@@ -127,6 +127,17 @@ v = Vm(3, operations)
 program = (('ADD', 'A', 'B', 'C'), ('ADD', 'B', 'C', 'A'))
 program2 = (('MOV', 'A', 'C'), ('ADD', 'B', 'C', 'A'))
 v.execute(program)
+
+
+class Evolution:
+    def __init__(self, population_size, population_creator, mutation_rate, crossing_over_rate):
+        self.mutation_rate = mutation_rate
+        self.crossing_over_rate = crossing_over_rate
+        self.population_creator = population_creator
+        self.population = population_creator.create(population_size)
+
+
+
 
 # print(f'add: {add(arr)} \n sub: {sub(arr)} \n mul: {mul(arr)} \n div: {div(arr)}')
 # print(vm.variables)
