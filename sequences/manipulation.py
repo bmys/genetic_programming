@@ -81,7 +81,7 @@ def change_at_indexes(sequence: Sequence, *enumerations: Tuple[int, Any]) -> Seq
 def random_change_at_index(sequence: Sequence, index: int, source: Set) -> Sequence:
     to_choose = source.copy()
     to_choose.discard(sequence[index])
-    chosen = choice(to_choose)
+    chosen = choice(list(to_choose))
     return change_at_index(sequence, index, chosen)
 
 
