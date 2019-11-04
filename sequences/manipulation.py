@@ -11,7 +11,7 @@ def concat_sequence(sequence: Sequence, *args) -> Sequence:
         return type(sequence)(concat)
 
 
-def random_enumerations(seq: Sequence, count: int) -> Tuple[Tuple[int, Any]]:
+def random_enumerations(seq: Sequence, count: int) -> Tuple[Tuple[int, Any], ...]:
     indexes = get_random_indexes(seq, count)
     return tuple((idx, seq[idx]) for idx in indexes)
 
@@ -70,6 +70,12 @@ def change_at_index(sequence: Sequence, index: int, element: Any) -> Sequence:
     if index >= len(sequence) or len(sequence) < 0:
         raise ValueError('Index should be in range from 0 to length of sequence - 1 ')
     return concat_sequence(sequence, sequence[:index], (element, ), sequence[index+1:])
+
+
+def change_at_indexes(sequence: Sequence, *enumerations: Tuple[int, Any]) -> Sequence:
+    for idx, elem in enumerations:
+        sequence = change_at_index(sequence, idx, elem)
+    return sequence
 
 
 def random_change_at_index(sequence: Sequence, index: int, source: Set) -> Sequence:
