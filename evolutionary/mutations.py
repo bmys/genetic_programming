@@ -4,7 +4,7 @@ from sequences.manipulation import random_change_at_index, \
     change_at_index, \
     random_enumerations, \
     change_at_indexes
-from random import randint
+from random import randrange
 
 
 def mutation_swap(mutation_function):
@@ -35,24 +35,31 @@ def mutation_swap_operands(seq_1, seq_2):
 
 @mutation_swap
 def mutation_swap_operand(seq_1, seq_2) -> Sequence:
-    first_operand_index = randint(1, len(seq_1) - 1)
-    second_operand_index = randint(1, len(seq_2) - 1)
+    first_operand_index = randrange(1, len(seq_1))
+    second_operand_index = randrange(1, len(seq_2))
     mutated_first_instruction = change_at_index(seq_1, first_operand_index, seq_2[second_operand_index])
     mutated_second_instruction = change_at_index(seq_2, second_operand_index, seq_1[first_operand_index])
     return mutated_first_instruction, mutated_second_instruction
 
 
-def mutation_change_operand(program: Sequence, operands: Set) -> Sequence:
-    index, instruction = random_enumerations(program, 1)
-    random_operand_index = randint(1, len(instruction))
+def mutation_change(fun):
+    def inner(seq, operands):
+        (index, instruction), *_ = random_enumerations(seq, 1)
+        mutated_instruction = fun(instruction, operands)
+        return change_at_index(seq, index, mutated_instruction)
+    return inner
+
+
+@mutation_change
+def mutation_change_operand(instruction, operands):
+    random_operand_index = randrange(1, len(instruction))
     mutated_instruction = random_change_at_index(instruction, random_operand_index, operands)
-    return change_at_index(program, index, mutated_instruction)
+    return mutated_instruction
 
 
-def mutation_change_operation(program: Sequence, operations: Set) -> Sequence:
-    index, instruction = random_enumerations(program, 1)
-    mutated_instruction = random_change_at_index(instruction, 0, operations)
-    return change_at_index(program, index, mutated_instruction)
+@mutation_change
+def mutation_change_operation(instruction, operations):
+    return random_change_at_index(instruction, 0, operations)
 
 
 def mutation(program: Sequence, mutating_function: Callable, args) -> Sequence:
