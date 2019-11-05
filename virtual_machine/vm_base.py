@@ -12,10 +12,10 @@ class Vm(ABC):
 
     @property
     @abstractmethod
-    def get_program(self):
+    def program(self):
         ...
 
-    @property.setter
+    @program.setter
     @abstractmethod
-    def get_program(self):
+    def program(self, p):
         ...

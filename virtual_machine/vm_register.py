@@ -5,9 +5,18 @@ from virtual_machine.vm_base import Vm
 
 
 class VmRegister(Vm):
-    def __init__(self, varc: int, instructions):
-        self.variables: dict = dict([(i, 0) for i in string.ascii_uppercase[:varc]])
-        self.program: list = list()
+
+    @property
+    def program(self):
+        return self.program
+
+    @program.setter
+    def program(self, pr):
+        self.p = pr
+
+    def __init__(self, variable_count: int, instructions):
+        self.variables: dict = dict([(i, 0) for i in string.ascii_uppercase[:variable_count]])
+        self.p: list = list()
         self.operations = instructions
 
     def reset(self):
@@ -21,9 +30,8 @@ class VmRegister(Vm):
             operation(self, *operands)
         return self.variables
 
-    def load_vars(self, variables):
-        for var in variables:
-            self.variables[var[0]] = var[1]
+    def load_vars(self, variables: dict):
+        self.variables.update(variables)
 
 
 def random_program(operations: Sequence,
