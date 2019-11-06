@@ -21,7 +21,7 @@ class VmRegister(Vm):
 
     def reset(self):
         self.variables = dict.fromkeys(self.variables, 0)
-        self.program.clear()
+        self.p.clear()
 
     def execute(self, program):
         for instruction in program:
@@ -30,7 +30,7 @@ class VmRegister(Vm):
             operation(self, *operands)
         return self.variables
 
-    def load_vars(self, variables: dict):
+    def update_variables(self, variables: dict):
         self.variables.update(variables)
 
 
@@ -43,4 +43,3 @@ def random_program(operations: Sequence,
         operation = random.choice(operations)
         operands = random.choices(variables_names, k=operands_count)
         yield (operation, *operands)
-
