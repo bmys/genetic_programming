@@ -12,11 +12,11 @@ def concat_sequence(sequence: Sequence, *args) -> Sequence:
 
 
 def random_enumerations(seq: Sequence, count: int) -> Tuple[Tuple[int, Any], ...]:
-    indexes = get_random_indexes(seq, count)
+    indexes = random_indexes(seq, count)
     return tuple((idx, seq[idx]) for idx in indexes)
 
 
-def get_random_indexes(seq: Sequence, count: int) -> Tuple[int, ...]:
+def random_indexes(seq: Sequence, count: int) -> Tuple[int, ...]:
     """
     Return tuple of n random indexes from range 0 to length of sequence
     :param seq:
@@ -26,7 +26,7 @@ def get_random_indexes(seq: Sequence, count: int) -> Tuple[int, ...]:
     return sample(range(len(seq)), count)
 
 
-def get_random_index(seq: Sequence) -> int:
+def random_index(seq: Sequence) -> int:
     """
     Return random index from sequence
     :param seq:
@@ -55,7 +55,7 @@ def random_swap(seq: Sequence) -> Sequence:
     :param seq:
     :return:
     """
-    indexes = get_random_indexes(seq, 2)
+    indexes = random_indexes(seq, 2)
     return swap_elements(seq, indexes)
 
 
