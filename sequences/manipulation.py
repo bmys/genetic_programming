@@ -1,14 +1,30 @@
 from random import randrange, choice, sample
 from typing import Sequence, Tuple, Set, Any, Iterable
 from itertools import chain, tee, zip_longest
+from functools import singledispatch
 
 
-def concat_sequence(sequence: Sequence, *args) -> Sequence:
+@singledispatch
+def concat_sequence(sequence, *args):
+    raise NotImplementedError(f"Cannot concatenate to element of type {type(sequence)}")
+
+
+@concat_sequence.register(tuple)
+def _(sequence, *args):
     concat = chain.from_iterable(args)
-    if hasattr(sequence, 'join'):
-        return ''.join(concat)
-    else:
-        return type(sequence)(concat)
+    return tuple(concat)
+
+
+@concat_sequence.register(list)
+def _(sequence, *args):
+    concat = chain.from_iterable(args)
+    return list(concat)
+
+
+@concat_sequence.register(str)
+def _(sequence, *args):
+    concat = chain.from_iterable(args)
+    return ''.join(concat)
 
 
 def random_enumerations(seq: Sequence, count: int) -> Tuple[Tuple[int, Any], ...]:
