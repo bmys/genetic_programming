@@ -1,10 +1,11 @@
 from typing import Sequence, Callable, Set
+from random import randrange
+from functools import wraps
 from sequences.manipulation import random_change_at_index, \
     random_swap, \
     change_at_index, \
     random_enumerations, \
     change_at_indexes
-from random import randrange
 
 
 def mutation_swap(mutation_function):
